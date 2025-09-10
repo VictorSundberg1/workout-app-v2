@@ -11,11 +11,15 @@ function App() {
 		setExercises([...exercises, { name, reps }]);
 	};
 
+	const removeExercise = (index) => {
+		setExercises(exercises.filter((_, i) => i !== index));
+	};
+
 	return (
 		<>
 			<h1>Tränings-logg</h1>
 			<InputContainer addExercise={addExercise} />
-			<DisplayContainer exercises={exercises} />
+			<DisplayContainer exercises={exercises} removeExercise={removeExercise} />
 		</>
 	);
 }

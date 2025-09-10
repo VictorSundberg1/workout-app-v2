@@ -1,42 +1,94 @@
+@import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 2rem;
+	text-align: center;
+	font-family: 'Poppins', sans-serif;
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+	height: 6em;
+	padding: 1.5em;
+	will-change: filter;
+	transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+	filter: drop-shadow(0 0 2em #646cffaa);
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+	filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
 @keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+	a:nth-of-type(2) .logo {
+		animation: logo-spin infinite 20s linear;
+	}
 }
 
 .card {
-  padding: 2em;
+	padding: 2em;
 }
 
 .read-the-docs {
-  color: #888;
+	color: #888;
+}
+
+.exercise-form {
+	margin-bottom: 2em;
+	display: flex;
+	gap: 1em;
+	justify-content: center;
+}
+
+.exercise-form input {
+	padding: 0.5em;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	font-size: 1rem;
+}
+
+.exercise-form button {
+	background: #7285ff;
+	color: white;
+	border-radius: 12px;
+	transition: 0.2s;
+}
+.exercise-form button:hover {
+	box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.4);
+}
+
+.display-list {
+	width: 80%;
+}
+
+.display-list li {
+	margin-bottom: 1em;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+	font-size: 1rem;
+	font-weight: 600;
+	border-radius: 12px;
+	background-color: rgb(91, 91, 91);
+	box-shadow: 2px 4px 8px rgba(222, 222, 222, 0.4);
+}
+
+.display-list button {
+	box-shadow: 2px 4px 8px rgba(222, 222, 222, 0.2);
+	background-color: #2b2b2b;
+}
+
+.display-list button:hover {
+	box-shadow: 2px 4px 8px rgba(222, 222, 222, 0.4);
 }

@@ -7,8 +7,13 @@ function InputContainer(props) {
 	return (
 		<>
 			<form
+				className="exercise-form"
 				onSubmit={(e) => {
 					e.preventDefault();
+					if (!exercise.trim() || !reps || reps <= 0) {
+						alert('Fyll i namn och antal repetitioner över 0!');
+						return;
+					}
 					props.addExercise(exercise, reps);
 					setExercise('');
 					setReps('');
@@ -24,7 +29,7 @@ function InputContainer(props) {
 				<input
 					type="number"
 					value={reps}
-					placeholder="0"
+					placeholder="Reps"
 					onChange={(e) => setReps(e.target.value)}
 				/>
 
