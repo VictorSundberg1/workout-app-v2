@@ -1,10 +1,19 @@
-import { useState } from 'react';
-import InputContainer from './components/InputComponent';
-import DisplayContainer from './components/DisplayComponent';
+import { useState, useEffect } from 'react';
+import InputComponent from './components/InputComponent';
+import DisplayComponent from './components/DisplayComponent';
 import './App.css';
 
 function App() {
-	const [exercises, setExercises] = useState([]);
+	// Hämtar övningar från localstorage när appen laddas in. finns inget returneras tom array
+	const [exercises, setExercises] = useState(() => {
+		try {
+			const saved = localStorage.getItem('exercises');
+			return saved ? JSON.parse(saved) : [];
+		} catch {
+			return [];
+		}
+	});
+
 	const totalReps = exercises.reduce((sum, ex) => sum + ex.reps, 0);
 
 	const addExercise = (name, reps) => {
@@ -18,26 +27,33 @@ function App() {
 
 	const handleIncrease = (index) => {
 		setExercises(
-			exercises.map((ex, i) =>
-				i === index ? { ...ex, reps: ex.reps + 1 } : ex
+			exercises.map((exercise, i) =>
+				i === index ? { ...exercise, reps: exercise.reps + 1 } : exercise
 			)
 		);
 	};
 
 	const handleDecrease = (index) => {
 		setExercises(
-			exercises.map((ex, i) =>
-				i === index && ex.reps > 0 ? { ...ex, reps: ex.reps - 1 } : ex
+			exercises.map((exercise, i) =>
+				i === index && exercise.reps > 0
+					? { ...exercise, reps: exercise.reps - 1 }
+					: exercise
 			)
 		);
 	};
+
+	// Sparar övning till localstorage som json sträng varje gång arrayen ändras
+	useEffect(() => {
+		localStorage.setItem('exercises', JSON.stringify(exercises));
+	}, [exercises]);
 
 	return (
 		<>
 			<h1>Tränings-logg</h1>
 			<h3>Totala reps: {totalReps}</h3>
-			<InputContainer addExercise={addExercise} />
-			<DisplayContainer
+			<InputComponent addExercise={addExercise} />
+			<DisplayComponent
 				exercises={exercises}
 				removeExercise={removeExercise}
 				handleIncrease={handleIncrease}
