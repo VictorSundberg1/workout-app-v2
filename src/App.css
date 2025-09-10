@@ -7,42 +7,6 @@
 	font-family: 'Poppins', sans-serif;
 }
 
-.logo {
-	height: 6em;
-	padding: 1.5em;
-	will-change: filter;
-	transition: filter 300ms;
-}
-.logo:hover {
-	filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-	filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
-}
-
-@media (prefers-reduced-motion: no-preference) {
-	a:nth-of-type(2) .logo {
-		animation: logo-spin infinite 20s linear;
-	}
-}
-
-.card {
-	padding: 2em;
-}
-
-.read-the-docs {
-	color: #888;
-}
-
 .exercise-form {
 	margin-bottom: 2em;
 	display: flex;
@@ -73,7 +37,7 @@
 }
 
 .display-list {
-	width: 80%;
+	width: 100%;
 	max-width: 500px;
 	margin: 0 auto;
 	display: flex;
@@ -90,17 +54,32 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 15px;
-	font-size: 1rem;
+	padding: 24px 20px;
+	font-size: 1.2rem;
 	font-weight: 600;
 	border-radius: 12px;
 	background-color: rgb(91, 91, 91);
 	box-shadow: 2px 4px 8px rgba(222, 222, 222, 0.4);
 }
 
+.card-info {
+	flex: 1;
+}
+
+.card-buttons {
+	display: flex;
+	gap: 12px;
+}
+
 .display-list button {
-	/* box-shadow: 2px 4px 8px rgba(222, 222, 222, 0.2); */
 	background-color: #2b2b2b;
+	color: white;
+	border-radius: 8px;
+	font-size: 1.1rem;
+	padding: 8px 16px;
+	border: none;
+	cursor: pointer;
+	transition: 0.2s;
 }
 
 .display-list button:hover {
