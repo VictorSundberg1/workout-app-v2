@@ -82,6 +82,15 @@
 	transition: 0.2s;
 }
 
+.display-list button:focus {
+	outline: none;
+}
+
+.display-list button:active {
+	outline: 2px solid #7285ff;
+	outline-offset: 2px;
+}
+
 .display-list button:hover {
 	box-shadow: 2px 4px 8px rgba(222, 222, 222, 0.4);
 	transform: translateY(-3px);
