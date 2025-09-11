@@ -60,6 +60,15 @@
 	border-radius: 12px;
 	background-color: rgb(91, 91, 91);
 	box-shadow: 2px 4px 8px rgba(222, 222, 222, 0.4);
+	position: relative;
+}
+
+.display-list .date-string {
+	position: absolute;
+	top: -25px;
+	left: 50px;
+	color: #e0e0e0;
+	opacity: 0.8;
 }
 
 .card-info {

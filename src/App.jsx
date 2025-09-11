@@ -17,8 +17,16 @@ function App() {
 	const totalReps = exercises.reduce((sum, ex) => sum + ex.reps, 0);
 
 	const addExercise = (name, reps) => {
+		const date = new Date().toLocaleString([], {
+			year: 'numeric',
+			month: 'numeric',
+			day: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit',
+		});
+
 		// Spred operator (...) används för att skapa en ny array med allt det gamla + det nya för att uppdatera komponenten
-		setExercises([...exercises, { name, reps: Number(reps) }]);
+		setExercises([...exercises, { name, reps: Number(reps), date }]);
 	};
 
 	const removeExercise = (index) => {

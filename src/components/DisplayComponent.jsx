@@ -8,6 +8,7 @@ function DisplayComponent({
 		<ul className="display-list">
 			{exercises.map((ex, i) => (
 				<li key={i}>
+					<h6 className="date-string">{ex.date}</h6>
 					<span className="cardd-info">
 						{ex.name} - {ex.reps} Reps
 					</span>
