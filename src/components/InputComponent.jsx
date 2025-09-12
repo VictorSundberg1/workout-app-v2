@@ -3,6 +3,13 @@ import { useState } from 'react';
 function InputContainer(props) {
 	const [exercise, setExercise] = useState('');
 	const [reps, setReps] = useState('');
+	const date = new Date().toLocaleString([], {
+		year: 'numeric',
+		month: 'numeric',
+		day: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
+	});
 
 	return (
 		<>
@@ -14,7 +21,7 @@ function InputContainer(props) {
 						alert('Fyll i namn och antal repetitioner över 0!');
 						return;
 					}
-					props.addExercise(exercise, reps);
+					props.addExercise(exercise, reps, date);
 					setExercise('');
 					setReps('');
 				}}
