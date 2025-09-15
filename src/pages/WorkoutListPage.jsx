@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 function WorkoutListPage() {
-	const [workouts, setWorkouts] = useState(() => {
-		const saved = localStorage.getItem('workouts');
-		return saved ? JSON.parse(saved) : [];
-	});
+	const [workouts, setWorkouts] = useState([]);
 
 	const [name, setName] = useState('');
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		const saved = localStorage.getItem('workouts');
+		setWorkouts(saved ? JSON.parse(saved) : []);
+	}, []);
 
 	const addWorkout = () => {
 		if (!name.trim()) return;
@@ -53,21 +55,30 @@ function WorkoutListPage() {
 				</button>
 			</form>
 
-			<ul className="display-list workout-list">
-				{workouts.map((workout) => (
-					<li className="workout-list-item" key={workout.id}>
-						<h6 className="date-string">{workout.date}</h6>
-						<Link to={`/workout/${workout.id}`} className="workout-link">
-							<span className="workout-name">{workout.name}</span>
-						</Link>
-						<button
-							className="workout-remove-btn"
-							onClick={() => removeWorkout(workout.id)}
-						>
-							Ta bort
-						</button>
-					</li>
-				))}
+			<ul className="workout-list">
+				{workouts.map((workout) => {
+					const totalReps = workout.exercises.reduce(
+						(sum, ex) => sum + (ex.reps || 0),
+						0
+					);
+					return (
+						<li className="workout-list-li" key={workout.id}>
+							<Link to={`/workout/${workout.id}`} className="workout-link">
+								<h6 className="date-string">{workout.date}</h6>
+								<span className="workout-name">{workout.name}</span>
+								<span className="workout-total-reps">
+									{totalReps} reps totalt
+								</span>
+							</Link>
+							<button
+								className="workout-remove-btn"
+								onClick={() => removeWorkout(workout.id)}
+							>
+								Ta bort
+							</button>
+						</li>
+					);
+				})}
 			</ul>
 		</div>
 	);
