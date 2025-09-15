@@ -1,10 +1,29 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import App from './App.jsx';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import NotFoundPage from './pages/NotFoundPage.jsx';
+import WorkoutListPage from './pages/WorkoutListPage.jsx';
+import WorkoutPage from './pages/WorkoutPage.jsx';
+
+const router = createBrowserRouter([
+	{
+		path: '/',
+		element: <WorkoutListPage />,
+	},
+	{
+		path: '/workout/:id',
+		element: <WorkoutPage />,
+	},
+	{
+		path: '*',
+		element: <NotFoundPage />,
+	},
+]);
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+	<StrictMode>
+		<RouterProvider router={router} />
+	</StrictMode>
+);

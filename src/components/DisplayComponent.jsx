@@ -9,7 +9,7 @@ function DisplayComponent({
 			{exercises.map((ex, i) => (
 				<li key={i}>
 					<h6 className="date-string">{ex.date}</h6>
-					<span className="cardd-info">
+					<span className="card-info">
 						{ex.name} - {ex.reps} Reps
 					</span>
 					<span className="card-buttons">
