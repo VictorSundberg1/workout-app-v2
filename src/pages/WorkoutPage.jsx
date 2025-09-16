@@ -29,39 +29,42 @@ function WorkoutPage() {
 		}
 	};
 
+	const addExercise = (name, reps, date) => {
+		updateWorkout([...workout.exercises, { name, reps: Number(reps), date }]);
+	};
+
+	const removeExercise = (index) => {
+		const newExercises = workout.exercises.filter((_, i) => i !== index);
+		updateWorkout(newExercises);
+	};
+
+	const handleIncrease = (index) => {
+		const newExercises = workout.exercises.map((exercise, i) =>
+			i === index ? { ...exercise, reps: exercise.reps + 1 } : exercise
+		);
+		updateWorkout(newExercises);
+	};
+
+	const handleDecrease = (index) => {
+		const newExercises = workout.exercises.map((exercise, i) =>
+			i === index && exercise.reps > 1
+				? { ...exercise, reps: exercise.reps - 1 }
+				: exercise
+		);
+		updateWorkout(newExercises);
+	};
+
 	if (!workout) return <div>Laddar...</div>;
 
 	return (
 		<div>
 			<h2>{workout.name}</h2>
-			<InputComponent
-				addExercise={(name, reps, date) =>
-					updateWorkout([
-						...workout.exercises,
-						{ name, reps: Number(reps), date },
-					])
-				}
-			/>
+			<InputComponent addExercise={addExercise} />
 			<DisplayComponent
 				exercises={workout.exercises}
-				removeExercise={(index) => {
-					const newExercises = workout.exercises.filter((_, i) => i !== index);
-					updateWorkout(newExercises);
-				}}
-				handleIncrease={(index) => {
-					const newExercises = workout.exercises.map((exercise, i) =>
-						i === index ? { ...exercise, reps: exercise.reps + 1 } : exercise
-					);
-					updateWorkout(newExercises);
-				}}
-				handleDecrease={(index) => {
-					const newExercises = workout.exercises.map((exercise, i) =>
-						i === index && exercise.reps > 1
-							? { ...exercise, reps: exercise.reps - 1 }
-							: exercise
-					);
-					updateWorkout(newExercises);
-				}}
+				removeExercise={removeExercise}
+				handleIncrease={handleIncrease}
+				handleDecrease={handleDecrease}
 			/>
 			<p>
 				Totalt antal reps:{' '}
