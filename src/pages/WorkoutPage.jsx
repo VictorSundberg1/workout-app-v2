@@ -2,44 +2,65 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import InputComponent from '../components/InputComponent';
 import DisplayComponent from '../components/DisplayComponent';
+import { supabase } from '../lib/supabaseClient';
 
 function WorkoutPage() {
 	const { id } = useParams(); //Plockar ur id på workouten ur url:en
 	const navigate = useNavigate();
 	const [workout, setWorkout] = useState(null);
 
-	// Hämtar wokout från localstorage när komponenten laddas
+	//Hämtar workout från supabase när sidan laddas
 	useEffect(() => {
-		const saved = localStorage.getItem('workouts');
-		if (saved) {
-			const workouts = JSON.parse(saved);
-			const found = workouts.find((workout) => workout.id === id);
-			if (found) setWorkout(found);
-			else navigate('/'); // Navigerar tillbaka om ingen workout hittas
-		}
+		(async () => {
+			const { data, error } = await supabase
+				.from('workouts') // Tabellnamn
+				.select('*') // hämtar alla kolumner
+				.eq('id', id) // Filtrera fram rätt workout ur workouts listan med id
+				.single(); // Returnerar den workouten som objekt
+			if (error) {
+				console.error(error);
+				navigate('/'); // Navigerar tillbaka hem om ingen workout hittas
+				return;
+			}
+			setWorkout(data); // Sätt datan från supabase till workout state
+		})();
 	}, [id, navigate]);
 
-	// Uppdaterar både state och localstorage vid änding
-	const updateWorkout = (newExercises) => {
-		setWorkout((workout) => ({ ...workout, exercises: newExercises }));
-		const saved = localStorage.getItem('workouts');
-		if (saved) {
-			const workouts = JSON.parse(saved).map((workout) =>
-				workout.id === id ? { ...workout, exercises: newExercises } : workout
-			);
-			localStorage.setItem('workouts', JSON.stringify(workouts));
+	// Sparar ändrad exercise listan till supabase
+	const saveExercisesSupabase = async (newExercises) => {
+		const { data, error } = await supabase
+			.from('workouts')
+			.update({ exercises: newExercises }) // Uppdaterar kolumnen "exercises"
+			.eq('id', id) // Filtrerar fram rätt workout med id
+			.select() // Returnerar uppdaterade raden
+			.single(); // returnerar som objekt istället för array med flera objekt
+		if (error) throw error;
+		return data;
+	};
+
+	// Uppdaterar workout i state och i supabase
+	const updateWorkout = async (newExercises) => {
+		try {
+			const updated = await saveExercisesSupabase(newExercises); // sparar till supabase
+			setWorkout(updated); // uppdaterar state med nya övningar
+		} catch (e) {
+			console.error(e);
+			alert('Misslyckades med att spara ändringar.');
 		}
 	};
 
+	// Lägg till ny övning
 	const addExercise = (name, reps, date) => {
 		updateWorkout([...workout.exercises, { name, reps: Number(reps), date }]);
 	};
 
+	// Ta bort övning
 	const removeExercise = (index) => {
 		const newExercises = workout.exercises.filter((_, i) => i !== index);
 		updateWorkout(newExercises);
 	};
 
+	// Öka antal reps på vald övning
 	const handleIncrease = (index) => {
 		const newExercises = workout.exercises.map((exercise, i) =>
 			i === index ? { ...exercise, reps: exercise.reps + 1 } : exercise
@@ -47,6 +68,7 @@ function WorkoutPage() {
 		updateWorkout(newExercises);
 	};
 
+	// Minskar antal reps på vald övning
 	const handleDecrease = (index) => {
 		const newExercises = workout.exercises.map((exercise, i) =>
 			i === index && exercise.reps > 1 // Check så det inte går under 1
