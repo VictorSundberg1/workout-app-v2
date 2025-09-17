@@ -4,20 +4,22 @@ import InputComponent from '../components/InputComponent';
 import DisplayComponent from '../components/DisplayComponent';
 
 function WorkoutPage() {
-	const { id } = useParams();
+	const { id } = useParams(); //Plockar ur id på workouten ur url:en
 	const navigate = useNavigate();
 	const [workout, setWorkout] = useState(null);
 
+	// Hämtar wokout från localstorage när komponenten laddas
 	useEffect(() => {
 		const saved = localStorage.getItem('workouts');
 		if (saved) {
 			const workouts = JSON.parse(saved);
 			const found = workouts.find((workout) => workout.id === id);
 			if (found) setWorkout(found);
-			else navigate('/');
+			else navigate('/'); // Navigerar tillbaka om ingen workout hittas
 		}
 	}, [id, navigate]);
 
+	// Uppdaterar både state och localstorage vid änding
 	const updateWorkout = (newExercises) => {
 		setWorkout((workout) => ({ ...workout, exercises: newExercises }));
 		const saved = localStorage.getItem('workouts');
@@ -47,7 +49,7 @@ function WorkoutPage() {
 
 	const handleDecrease = (index) => {
 		const newExercises = workout.exercises.map((exercise, i) =>
-			i === index && exercise.reps > 1
+			i === index && exercise.reps > 1 // Check så det inte går under 1
 				? { ...exercise, reps: exercise.reps - 1 }
 				: exercise
 		);

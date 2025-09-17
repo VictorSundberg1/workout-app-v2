@@ -2,20 +2,20 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 function WorkoutListPage() {
-	const [workouts, setWorkouts] = useState([]);
-
+	const [workouts, setWorkouts] = useState([]); // State lista med alla workouts
 	const [name, setName] = useState('');
 	const navigate = useNavigate();
 
+	// Hämtar alla workouts ur localstorage när komponent laddas
 	useEffect(() => {
 		const saved = localStorage.getItem('workouts');
 		setWorkouts(saved ? JSON.parse(saved) : []);
 	}, []);
 
 	const addWorkout = () => {
-		if (!name.trim()) return;
+		if (!name.trim()) return; // Check om namn är tomt
 		const newWorkout = {
-			id: Date.now().toString(),
+			id: Date.now().toString(), // Unik id från tid i millisekunder (?)
 			name,
 			exercises: [],
 			date: new Date().toLocaleString([], {
@@ -27,17 +27,17 @@ function WorkoutListPage() {
 			}),
 		};
 
-		const updated = [...workouts, newWorkout];
-		setWorkouts(updated);
-		localStorage.setItem('workouts', JSON.stringify(updated));
+		const updated = [...workouts, newWorkout]; // Lägger till workout i lista
+		setWorkouts(updated); // Uppdatera state med listan
+		localStorage.setItem('workouts', JSON.stringify(updated)); // Sparar localstorage
 		setName('');
-		navigate(`/workout/${newWorkout.id}`);
+		navigate(`/workout/${newWorkout.id}`); // Navigera till nya passet med det unika id:et som url
 	};
 
 	const removeWorkout = (id) => {
-		const updated = workouts.filter((workout) => workout.id !== id);
-		setWorkouts(updated);
-		localStorage.setItem('workouts', JSON.stringify(updated));
+		const updated = workouts.filter((workout) => workout.id !== id); // Ta bort ur lista genom id:et
+		setWorkouts(updated); // Uppdatera state med nya listan
+		localStorage.setItem('workouts', JSON.stringify(updated)); // Sparar localstorage med nya listan
 	};
 
 	return (
@@ -63,6 +63,7 @@ function WorkoutListPage() {
 					);
 					return (
 						<li className="workout-list-li" key={workout.id}>
+							{/* Länk till workout med det unika id:et */}
 							<Link to={`/workout/${workout.id}`} className="workout-link">
 								<h6 className="date-string">{workout.date}</h6>
 								<span className="workout-name">{workout.name}</span>

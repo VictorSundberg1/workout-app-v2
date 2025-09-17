@@ -1,13 +1,13 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import App from './App.jsx';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import './app.css';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import WorkoutListPage from './pages/WorkoutListPage.jsx';
 import WorkoutPage from './pages/WorkoutPage.jsx';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
 	{
 		path: '/',
 		element: <WorkoutListPage />,
